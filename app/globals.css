@@ -67,12 +67,14 @@
   --border: #d6e7ed;
   --input: #cddfe6;
   --ring: #5d8da3;
-  /* Validated categorical palette (dataviz skill), fixed order — never cycled. */
-  --chart-1: #2a78d6;
-  --chart-2: #eb6834;
-  --chart-3: #1baf7a;
-  --chart-4: #eda100;
-  --chart-5: #e87ba4;
+  /* Blue ordinal ramp (dataviz skill, --ordinal validated), light->dark —
+     most survey options are Likert-style (e.g. دائمًا..أبدًا), so a single-hue
+     ramp fits the theme and the data better than arbitrary categorical hues. */
+  --chart-1: #86b6ef;
+  --chart-2: #5598e7;
+  --chart-3: #2a78d6;
+  --chart-4: #1c5cab;
+  --chart-5: #104281;
   --radius: 0.9rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -103,11 +105,11 @@
   --border: #d6e7ed;
   --input: #cddfe6;
   --ring: #5d8da3;
-  --chart-1: #2a78d6;
-  --chart-2: #eb6834;
-  --chart-3: #1baf7a;
-  --chart-4: #eda100;
-  --chart-5: #e87ba4;
+  --chart-1: #86b6ef;
+  --chart-2: #5598e7;
+  --chart-3: #2a78d6;
+  --chart-4: #1c5cab;
+  --chart-5: #104281;
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);

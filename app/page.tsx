@@ -8,22 +8,28 @@ import { SignOutButton } from "@/components/survey/sign-out-button";
 import { StudentNameForm } from "@/components/survey/student-name-form";
 import { SurveyExperience } from "@/components/survey/survey-experience";
 import { auth } from "@/lib/auth";
-import { getSurveyAnalytics, groupQuestionsByCategory } from "@/lib/analytics";
+import { getRespondents, getSurveyAnalytics } from "@/lib/analytics";
 import { surveyQuestions } from "@/lib/survey-data";
 
 export default async function Home() {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (session?.user?.role === "admin") {
-    const { totalCompleted, questions } = await getSurveyAnalytics();
-    const categoryGroups = groupQuestionsByCategory(questions);
+    const [{ totalCompleted, questions }, respondents] = await Promise.all([
+      getSurveyAnalytics(),
+      getRespondents(),
+    ]);
 
     return (
       <main className="relative z-10 mx-auto w-[92%] max-w-[1050px] py-9 pb-16">
         <div className="mb-6 flex justify-end">
           <SignOutButton />
         </div>
-        <SurveyDashboard totalCompleted={totalCompleted} categoryGroups={categoryGroups} />
+        <SurveyDashboard
+          totalCompleted={totalCompleted}
+          questions={questions}
+          respondents={respondents}
+        />
       </main>
     );
   }

@@ -4,8 +4,6 @@ import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { TooltipContentProps } from "recharts/types/component/Tooltip";
 
-type CategoryTooltipProps = Partial<TooltipContentProps<number, string>>;
-
 import {
   Card,
   CardContent,
@@ -23,7 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { CategoryChartRow, QuestionStat } from "@/lib/analytics";
+import type { QuestionChartRow, QuestionStat } from "@/lib/analytics";
+
+type QuestionTooltipProps = Partial<TooltipContentProps<number, string>>;
 
 // Fixed identity per option position (never per option text, which differs
 // question to question) — a validated categorical order, never re-ordered.
@@ -35,23 +35,26 @@ const optionChartConfig = {
   option5: { label: "الخيار الخامس", color: "var(--chart-5)" },
 } satisfies ChartConfig;
 
-function CategoryTooltip({ active, payload }: CategoryTooltipProps) {
+function QuestionTooltip({ active, payload }: QuestionTooltipProps) {
   if (!active || !payload?.length) {
     return null;
   }
 
-  const row = payload[0]?.payload as CategoryChartRow | undefined;
+  const row = payload[0]?.payload as QuestionChartRow | undefined;
   if (!row) {
     return null;
   }
 
   return (
     <div className="grid min-w-56 gap-2 rounded-lg border border-border/50 bg-background px-3 py-2.5 text-xs shadow-xl">
-      <p className="font-medium text-foreground">{row.questionText}</p>
+      <div>
+        <p className="text-muted-foreground">{row.category}</p>
+        <p className="font-medium text-foreground">{row.questionText}</p>
+      </div>
       <div className="grid gap-1.5">
         {payload.map((item) => {
           const key = item.dataKey as string;
-          const optionText = row[`${key}Text` as keyof CategoryChartRow] as string | undefined;
+          const optionText = row[`${key}Text` as keyof QuestionChartRow] as string | undefined;
           if (!optionText) {
             return null;
           }
@@ -77,13 +80,12 @@ function CategoryTooltip({ active, payload }: CategoryTooltipProps) {
   );
 }
 
-type CategoryChartProps = {
-  category: string;
+type QuestionsChartProps = {
   questions: QuestionStat[];
-  rows: CategoryChartRow[];
+  rows: QuestionChartRow[];
 };
 
-export function CategoryChart({ category, questions, rows }: CategoryChartProps) {
+export function QuestionsChart({ questions, rows }: QuestionsChartProps) {
   const [view, setView] = useState("chart");
 
   const maxOptionCount = Math.max(...questions.map((q) => q.options.length));
@@ -92,8 +94,12 @@ export function CategoryChart({ category, questions, rows }: CategoryChartProps)
   return (
     <Card className="gap-0 border-0 bg-card/95 p-6 shadow-[0_12px_35px_rgba(60,100,115,0.09)]">
       <CardHeader className="mb-4 px-0">
-        <CardTitle className="text-base font-semibold text-foreground">{category}</CardTitle>
-        <CardDescription>{questions.length} أسئلة</CardDescription>
+        <CardTitle className="text-base font-semibold text-foreground">
+          توزيع إجابات الطلاب حسب كل سؤال
+        </CardTitle>
+        <CardDescription>
+          كل عمود يمثل أحد أسئلة الاستبيان الـ{questions.length}، ويوضح نسبة كل خيار من إجاباته
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="px-0">
@@ -104,55 +110,61 @@ export function CategoryChart({ category, questions, rows }: CategoryChartProps)
           </TabsList>
 
           <TabsContent value="chart">
-            <ChartContainer config={optionChartConfig} className="aspect-[4/3] w-full">
-              <BarChart accessibilityLayer data={rows} maxBarSize={24}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="questionNumber"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => `س${value}`}
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  domain={[0, 100]}
-                  ticks={[0, 50, 100]}
-                  tickFormatter={(value) => `${value}%`}
-                  width={40}
-                />
-                <ChartTooltip cursor={false} content={<CategoryTooltip />} />
-                <ChartLegend content={<ChartLegendContent />} />
-                {optionKeys.map((key, index) => (
-                  <Bar
-                    key={key}
-                    dataKey={key}
-                    stackId="options"
-                    fill={`var(--color-${key})`}
-                    stroke="var(--card)"
-                    strokeWidth={2}
-                    radius={
-                      index === 0
-                        ? [0, 0, 0, 0]
-                        : index === optionKeys.length - 1
-                          ? [4, 4, 0, 0]
-                          : [0, 0, 0, 0]
-                    }
+            <div className="overflow-x-auto">
+              <ChartContainer
+                config={optionChartConfig}
+                className="aspect-[2/1] min-w-[720px]"
+              >
+                <BarChart accessibilityLayer data={rows} maxBarSize={24}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="questionNumber"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    tickFormatter={(value) => `س${value}`}
                   />
-                ))}
-              </BarChart>
-            </ChartContainer>
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    domain={[0, 100]}
+                    ticks={[0, 50, 100]}
+                    tickFormatter={(value) => `${value}%`}
+                    width={40}
+                  />
+                  <ChartTooltip cursor={false} content={<QuestionTooltip />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  {optionKeys.map((key, index) => (
+                    <Bar
+                      key={key}
+                      dataKey={key}
+                      stackId="options"
+                      fill={`var(--color-${key})`}
+                      stroke="var(--card)"
+                      strokeWidth={2}
+                      radius={
+                        index === 0
+                          ? [0, 0, 0, 0]
+                          : index === optionKeys.length - 1
+                            ? [4, 4, 0, 0]
+                            : [0, 0, 0, 0]
+                      }
+                    />
+                  ))}
+                </BarChart>
+              </ChartContainer>
+            </div>
           </TabsContent>
 
           <TabsContent value="table">
             <Table className="table-fixed">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[45%]">السؤال</TableHead>
-                  <TableHead className="w-[35%]">الخيار</TableHead>
-                  <TableHead className="w-[20%] text-left">النسبة</TableHead>
+                  <TableHead className="w-[20%]">الفئة</TableHead>
+                  <TableHead className="w-[35%]">السؤال</TableHead>
+                  <TableHead className="w-[30%]">الخيار</TableHead>
+                  <TableHead className="w-[15%] text-left">النسبة</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -160,12 +172,20 @@ export function CategoryChart({ category, questions, rows }: CategoryChartProps)
                   question.options.map((option, index) => (
                     <TableRow key={`${question.questionIndex}-${option.optionIndex}`}>
                       {index === 0 ? (
-                        <TableCell
-                          rowSpan={question.options.length}
-                          className="align-top font-medium break-words whitespace-normal text-foreground"
-                        >
-                          {question.question}
-                        </TableCell>
+                        <>
+                          <TableCell
+                            rowSpan={question.options.length}
+                            className="align-top break-words whitespace-normal text-muted-foreground"
+                          >
+                            {question.category}
+                          </TableCell>
+                          <TableCell
+                            rowSpan={question.options.length}
+                            className="align-top font-medium break-words whitespace-normal text-foreground"
+                          >
+                            {question.question}
+                          </TableCell>
+                        </>
                       ) : null}
                       <TableCell className="break-words whitespace-normal text-muted-foreground">
                         {option.optionText}
