@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سفراء الأمن الرقمي</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Cairo", sans-serif;
+      background: #dbeaf1;
+      color: #244452;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* زخارف بسيطة */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 330px;
+      height: 330px;
+      top: -150px;
+      right: -100px;
+      border: 1px solid rgba(91, 137, 156, 0.18);
+      box-shadow:
+        0 0 0 35px rgba(91, 137, 156, 0.05),
+        0 0 0 70px rgba(91, 137, 156, 0.035);
+    }
+
+    body::after {
+      width: 260px;
+      height: 260px;
+      bottom: -130px;
+      left: -80px;
+      border: 1px solid rgba(91, 137, 156, 0.16);
+      box-shadow:
+        0 0 0 30px rgba(91, 137, 156, 0.045),
+        0 0 0 60px rgba(91, 137, 156, 0.03);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1050px, 92%);
+      margin: auto;
+      padding: 35px 0 50px;
+    }
+
+    .student {
+      text-align: right;
+      font-size: 14px;
+      color: #557583;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .student span {
+      color: #315c6e;
+      font-weight: 700;
+    }
+
+
+    .login-card {
+      position: relative;
+      background: rgba(244, 249, 251, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 28px;
+      padding: 42px 35px;
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 25px;
+      box-shadow: 0 15px 45px rgba(60, 100, 115, 0.10);
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 1px solid rgba(89, 133, 151, 0.13);
+      border-radius: 50%;
+      top: -70px;
+      right: -55px;
+    }
+
+    .login-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 1px solid rgba(89, 133, 151, 0.10);
+      transform: rotate(45deg);
+      bottom: -55px;
+      left: -40px;
+    }
+
+    .login-label {
+      color: #688895;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .login-card h2 {
+      color: #2f6177;
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .login-card p {
+      color: #607c88;
+      line-height: 1.9;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .google-btn {
+      width: min(100%, 390px);
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid #cddfe6;
+      background: #ffffff;
+      color: #3d5d69;
+      border-radius: 13px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 5px 16px rgba(60, 100, 115, 0.07);
+    }
+
+    .google-btn:hover {
+      border-color: #a9c6d1;
+      transform: translateY(-2px);
+      box-shadow: 0 9px 22px rgba(60, 100, 115, 0.10);
+    }
+
+    .google-mark {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f3f7f9;
+      color: #4285f4;
+      font-family: Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .login-note {
+      color: #78919b;
+      font-size: 11px;
+      margin-top: 14px;
+    }
+
+    .hero {
+      position: relative;
+      background: rgba(244, 249, 251, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 28px;
+      padding: 55px 45px;
+      text-align: center;
+      box-shadow: 0 15px 45px rgba(60, 100, 115, 0.10);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border: 1px solid rgba(89, 133, 151, 0.16);
+      border-radius: 50%;
+      left: -85px;
+      top: -75px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 1px solid rgba(89, 133, 151, 0.13);
+      transform: rotate(45deg);
+      right: -45px;
+      bottom: -55px;
+    }
+
+    .small-label {
+      color: #688895;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      color: #2f6177;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #607c88;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      line-height: 2;
+      font-size: 16px;
+    }
+
+    .start-btn {
+      border: none;
+      background: #5d8da3;
+      color: white;
+      padding: 14px 42px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 8px 20px rgba(71, 111, 128, 0.18);
+    }
+
+    .start-btn:hover {
+      background: #4e7e94;
+      transform: translateY(-2px);
+    }
+
+    .survey {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .survey.active {
+      display: block;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 12px;
+      color: #5b7885;
+      font-size: 14px;
+    }
+
+    .progress-wrap {
+      height: 8px;
+      background: #c6dce5;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 5%;
+      background: #5d8da3;
+      border-radius: inherit;
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      background: rgba(249, 252, 253, 0.95);
+      border-radius: 25px;
+      padding: 38px;
+      box-shadow: 0 12px 35px rgba(60, 100, 115, 0.09);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .category {
+      display: inline-block;
+      color: #5d8190;
+      background: #e3f0f4;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 18px;
+    }
+
+    .question {
+      font-size: 22px;
+      line-height: 1.8;
+      color: #294f5e;
+      margin-bottom: 25px;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #eef6f8;
+      border: 1px solid #d6e7ed;
+      border-radius: 14px;
+      padding: 15px 18px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      color: #486774;
+    }
+
+    .option:hover {
+      background: #e5f1f5;
+      border-color: #aac8d3;
+    }
+
+    .option input {
+      accent-color: #5d8da3;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .nav button {
+      border: none;
+      font-family: inherit;
+      padding: 12px 28px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .back {
+      background: #e1edf1;
+      color: #557581;
+    }
+
+    .next {
+      background: #5d8da3;
+      color: white;
+      margin-right: auto;
+    }
+
+    .nav button:hover {
+      transform: translateY(-1px);
+    }
+
+    .result {
+      display: none;
+      text-align: center;
+      background: rgba(249,252,253,0.95);
+      border-radius: 25px;
+      padding: 55px 30px;
+      margin-top: 25px;
+      box-shadow: 0 12px 35px rgba(60,100,115,0.09);
+    }
+
+    .result.active {
+      display: block;
+    }
+
+    .result h2 {
+      color: #2f6177;
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .result p {
+      color: #607c88;
+      line-height: 2;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        width: 94%;
+        padding-top: 24px;
+      }
+
+  
+    .login-card {
+      position: relative;
+      background: rgba(244, 249, 251, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 28px;
+      padding: 42px 35px;
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 25px;
+      box-shadow: 0 15px 45px rgba(60, 100, 115, 0.10);
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 1px solid rgba(89, 133, 151, 0.13);
+      border-radius: 50%;
+      top: -70px;
+      right: -55px;
+    }
+
+    .login-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 1px solid rgba(89, 133, 151, 0.10);
+      transform: rotate(45deg);
+      bottom: -55px;
+      left: -40px;
+    }
+
+    .login-label {
+      color: #688895;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .login-card h2 {
+      color: #2f6177;
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .login-card p {
+      color: #607c88;
+      line-height: 1.9;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .google-btn {
+      width: min(100%, 390px);
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid #cddfe6;
+      background: #ffffff;
+      color: #3d5d69;
+      border-radius: 13px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 5px 16px rgba(60, 100, 115, 0.07);
+    }
+
+    .google-btn:hover {
+      border-color: #a9c6d1;
+      transform: translateY(-2px);
+      box-shadow: 0 9px 22px rgba(60, 100, 115, 0.10);
+    }
+
+    .google-mark {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f3f7f9;
+      color: #4285f4;
+      font-family: Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .login-note {
+      color: #78919b;
+      font-size: 11px;
+      margin-top: 14px;
+    }
+
+    .hero {
+        padding: 40px 22px;
+      }
+
+      .question-card {
+        padding: 25px 20px;
+      }
+
+      .question {
+        font-size: 19px;
+      }
+
+      .topbar {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <div class="student">
+      <div>عمل الطالبة/ <span>لاتين الحرّي</span></div>
+      <div>مشرفة النشاط/ <span>أ/ مرزوقه الحرّي</span></div>
+    </div>
+
+
+    <section class="login-card" id="loginCard">
+      <div class="login-label">الدخول إلى الاستبيان</div>
+      <h2>مرحبًا بك</h2>
+      <p>سجّل الدخول باستخدام حساب Google للمتابعة إلى الاستبيان.</p>
+      <button class="google-btn" type="button" onclick="googleLogin()">
+        <span class="google-mark">G</span>
+        <span>تسجيل الدخول باستخدام Google</span>
+      </button>
+      <div class="login-note" id="loginNote">سيتم الانتقال إلى الاستبيان بعد تسجيل الدخول.</div>
+    </section>
+
+    <section class="hero" id="welcome" style="display:none;">
+      <div class="small-label">استبيان توعوي</div>
+      <h1>سفراء الأمن الرقمي</h1>
+      <p class="subtitle">
+        استبيان حول استخدام الإنترنت ومخاطره، والتنمر الإلكتروني،
+        وأخلاقيات المواطن الرقمي والاستخدام الآمن والمسؤول للتقنية.
+      </p>
+      <button class="start-btn" onclick="startSurvey()">ابدأ الاستبيان</button>
+    </section>
+
+    <section class="survey" id="survey">
+      <div class="topbar">
+        <span id="questionNumber">السؤال 1 من 20</span>
+        <span id="percentage">5%</span>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress" id="progress"></div>
+      </div>
+
+      <div class="question-card">
+        <div class="category" id="category">استخدام الإنترنت والوعي بالمخاطر</div>
+        <h2 class="question" id="question"></h2>
+        <div class="options" id="options"></div>
+
+        <div class="nav">
+          <button class="back" id="backBtn" onclick="previousQuestion()">السابق</button>
+          <button class="next" id="nextBtn" onclick="nextQuestion()">التالي</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="result" id="result">
+      <h2>شكرًا لمشاركتك</h2>
+      <p>
+        تم الانتهاء من الاستبيان بنجاح.<br>
+        نقدر وقتك ومساهمتك في تعزيز الوعي بالاستخدام الآمن والمسؤول للإنترنت.
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    const questions = [
+      {
+        category: "استخدام الإنترنت والوعي بالمخاطر",
+        question: "كم ساعة تقريبًا تستخدم الإنترنت يوميًا؟",
+        options: ["أقل من ساعة", "1–3 ساعات", "4–6 ساعات", "7–9 ساعات", "أكثر من 9 ساعات"]
+      },
+      {
+        category: "استخدام الإنترنت والوعي بالمخاطر",
+        question: "ما مدى معرفتك بالمخاطر المرتبطة باستخدام الإنترنت؟",
+        options: ["لا أعرف عنها شيئًا", "أعرف عنها بشكل بسيط", "أعرف عنها بشكل متوسط", "أعرف عنها بشكل جيد", "أعرف عنها بشكل كبير"]
+      },
+      {
+        category: "استخدام الإنترنت والوعي بالمخاطر",
+        question: "أي من التالي تعتبره من مخاطر استخدام الإنترنت؟",
+        options: ["الاحتيال الإلكتروني", "سرقة المعلومات الشخصية", "اختراق الحسابات", "التنمر الإلكتروني", "نشر المعلومات المضللة"]
+      },
+      {
+        category: "استخدام الإنترنت والوعي بالمخاطر",
+        question: "عندما تستخدم موقعًا إلكترونيًا جديدًا، هل تتحقق من مدى موثوقيته؟",
+        options: ["دائمًا", "غالبًا", "أحيانًا", "نادرًا", "أبدًا"]
+      },
+      {
+        category: "استخدام الإنترنت والوعي بالمخاطر",
+        question: "ما مدى اهتمامك بحماية معلوماتك الشخصية على الإنترنت؟",
+        options: ["غير مهتم", "مهتم قليلًا", "مهتم إلى حد ما", "مهتم", "مهتم جدًا"]
+      },
+      {
+        category: "التنمر الإلكتروني",
+        question: "هل سبق أن شاهدت موقفًا يتضمن تنمرًا إلكترونيًا؟",
+        options: ["نعم", "لا", "لست متأكدًا"]
+      },
+      {
+        category: "التنمر الإلكتروني",
+        question: "ما التصرف الذي تراه مناسبًا عند التعرض للتنمر الإلكتروني؟",
+        options: ["تجاهل الأمر فقط", "الرد بالمثل", "حظر الشخص والإبلاغ عنه", "مشاركة الموقف مع الآخرين", "طلب المساعدة من شخص موثوق"]
+      },
+      {
+        category: "التنمر الإلكتروني",
+        question: "ما مدى تأثير التنمر الإلكتروني على الشخص الذي يتعرض له من وجهة نظرك؟",
+        options: ["لا تأثير له", "تأثير بسيط", "تأثير متوسط", "تأثير كبير", "تأثير كبير جدًا"]
+      },
+      {
+        category: "التنمر الإلكتروني",
+        question: "إذا شاهدت شخصًا يتعرض للتنمر الإلكتروني، ماذا تفعل؟",
+        options: ["أتجاهل الموقف", "أشارك في النقاش", "أدافع عن الشخص بطريقة مناسبة", "أبلغ عن المحتوى أو الحساب", "أطلب المساعدة من شخص مسؤول"]
+      },
+      {
+        category: "التنمر الإلكتروني",
+        question: "أي من السلوكيات التالية يمكن أن يُعد تنمرًا إلكترونيًا؟",
+        options: ["نشر صور شخص دون موافقته بهدف السخرية منه", "إرسال رسائل مهينة بشكل متكرر", "نشر شائعات عن شخص عبر الإنترنت", "الاختلاف مع شخص في الرأي باحترام", "استبعاد شخص عمدًا من مجموعة إلكترونية بهدف إيذائه"]
+      },
+      {
+        category: "أخلاقيات المواطن الرقمي",
+        question: "ما المقصود برأيك بالمواطن الرقمي المسؤول؟",
+        options: ["شخص يستخدم الإنترنت بشكل متكرر", "شخص يمتلك حسابات في مواقع التواصل", "شخص يستخدم التكنولوجيا بطريقة آمنة ومسؤولة وأخلاقية", "شخص يعرف استخدام التطبيقات المختلفة", "لا أعرف"]
+      },
+      {
+        category: "أخلاقيات المواطن الرقمي",
+        question: "هل تتحقق من صحة المعلومات قبل مشاركتها؟",
+        options: ["دائمًا", "غالبًا", "أحيانًا", "نادرًا", "أبدًا"]
+      },
+      {
+        category: "أخلاقيات المواطن الرقمي",
+        question: "ما مدى أهمية احترام خصوصية الآخرين على الإنترنت؟",
+        options: ["غير مهمة", "قليلة الأهمية", "متوسطة الأهمية", "مهمة", "مهمة جدًا"]
+      },
+      {
+        category: "أخلاقيات المواطن الرقمي",
+        question: "قبل نشر صورة أو معلومات تخص شخصًا آخر، ما التصرف الصحيح؟",
+        options: ["نشرها مباشرة", "نشرها إذا كان الحساب خاصًا", "أخذ موافقته أولًا", "إرسالها للأصدقاء فقط", "لا أعتقد أن الموافقة ضرورية"]
+      },
+      {
+        category: "أخلاقيات المواطن الرقمي",
+        question: "أي من السلوكيات التالية يعكس المواطنة الرقمية المسؤولة؟",
+        options: ["احترام آراء الآخرين", "حماية المعلومات الشخصية", "التحقق من المعلومات", "احترام حقوق الملكية الفكرية", "نشر محتوى مسيء للآخرين"]
+      },
+      {
+        category: "السلوك الرقمي الآمن",
+        question: "هل تستخدم كلمات مرور مختلفة لحساباتك المختلفة؟",
+        options: ["دائمًا", "غالبًا", "أحيانًا", "نادرًا", "أبدًا"]
+      },
+      {
+        category: "السلوك الرقمي الآمن",
+        question: "هل تستخدم المصادقة الثنائية في حساباتك؟",
+        options: ["نعم، في معظم حساباتي", "نعم، في بعض الحسابات", "أعرف بها ولكن لا أستخدمها", "لا أعرف ما هي"]
+      },
+      {
+        category: "السلوك الرقمي الآمن",
+        question: "إذا وصلك رابط من مصدر غير معروف، ماذا تفعل؟",
+        options: ["أفتحه لمعرفة محتواه", "أرسله لشخص آخر", "أتحقق من مصدره قبل فتحه", "أحذفه مباشرة", "لا أعرف ماذا أفعل"]
+      },
+      {
+        category: "السلوك الرقمي الآمن",
+        question: "إلى أي مدى ترى أن سلوك الفرد على الإنترنت يمكن أن يؤثر على الآخرين؟",
+        options: ["لا يؤثر", "تأثير بسيط", "تأثير متوسط", "تأثير كبير", "تأثير كبير جدًا"]
+      },
+      {
+        category: "السلوك الرقمي الآمن",
+        question: "بعد الإجابة على هذا الاستبيان، كيف تقيّم مستوى وعيك بالسلامة والمواطنة الرقمية؟",
+        options: ["منخفض جدًا", "منخفض", "متوسط", "جيد", "مرتفع جدًا"]
+      }
+    ];
+
+    let current = 0;
+    const answers = {};
+
+
+    function googleLogin() {
+      const note = document.getElementById("loginNote");
+      note.textContent = "تم اختيار تسجيل الدخول باستخدام Google. اضغطي على «ابدأ الاستبيان» للمتابعة.";
+      note.style.color = "#4f7f92";
+
+      document.getElementById("welcome").style.display = "block";
+      document.getElementById("loginCard").style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function startSurvey() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("survey").classList.add("active");
+      showQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showQuestion() {
+      const q = questions[current];
+
+      document.getElementById("questionNumber").textContent =
+        `السؤال ${current + 1} من ${questions.length}`;
+
+      document.getElementById("percentage").textContent =
+        `${Math.round(((current + 1) / questions.length) * 100)}%`;
+
+      document.getElementById("progress").style.width =
+        `${((current + 1) / questions.length) * 100}%`;
+
+      document.getElementById("category").textContent = q.category;
+      document.getElementById("question").textContent = q.question;
+
+      const options = document.getElementById("options");
+      options.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const label = document.createElement("label");
+        label.className = "option";
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "question";
+        input.value = option;
+        input.checked = answers[current] === option;
+
+        input.addEventListener("change", () => {
+          answers[current] = option;
+        });
+
+        const text = document.createElement("span");
+        text.textContent = option;
+
+        label.appendChild(input);
+        label.appendChild(text);
+        options.appendChild(label);
+      });
+
+      document.getElementById("backBtn").style.visibility =
+        current === 0 ? "hidden" : "visible";
+
+      document.getElementById("nextBtn").textContent =
+        current === questions.length - 1 ? "إنهاء الاستبيان" : "التالي";
+    }
+
+    function nextQuestion() {
+      if (!answers[current]) {
+        alert("يرجى اختيار إجابة قبل الانتقال إلى السؤال التالي.");
+        return;
+      }
+
+      if (current < questions.length - 1) {
+        current++;
+        showQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        document.getElementById("survey").classList.remove("active");
+        document.getElementById("result").classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    function previousQuestion() {
+      if (current > 0) {
+        current--;
+        showQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  </script>
+</body>
+</html>

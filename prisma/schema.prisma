@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String          @id
+  name           String
+  email          String
+  emailVerified  Boolean         @default(false)
+  image          String?
+  // Set automatically on sign-up by a better-auth database hook (see
+  // lib/auth.ts) based on email — not user-settable via any API input.
+  role           String          @default("student")
+  // The student's self-reported name, collected in a required step right
+  // after sign-in (separate from `name`, which comes from the Google
+  // account and may not match how the student wants to be recorded).
+  studentName    String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  sessions       Session[]
+  accounts       Account[]
+  surveyResponse SurveyResponse?
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// One response per signed-in user, created on their first answered question
+// and updated as they progress, so closing the app and returning later
+// resumes from the same question with prior answers intact. Kept separate
+// from Answer rows so category/question breakdowns for charts can be
+// queried with plain SQL aggregation instead of unpacking a JSON blob.
+model SurveyResponse {
+  id          String         @id @default(cuid())
+  userId      String         @unique
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  startedAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  completedAt DateTime?
+  answers     SurveyAnswer[]
+
+  @@map("survey_response")
+}
+
+// category/question/optionText are copied from lib/survey-data.ts at
+// submission time, so past answers stay legible even if question wording
+// changes later.
+model SurveyAnswer {
+  id            String         @id @default(cuid())
+  responseId    String
+  response      SurveyResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  questionIndex Int
+  category      String
+  question      String
+  optionIndex   Int
+  optionText    String
+
+  @@unique([responseId, questionIndex])
+  @@index([category])
+  @@index([questionIndex])
+  @@map("survey_answer")
+}

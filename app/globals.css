@@ -1,0 +1,218 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #dbeaf1;
+  --foreground: #244452;
+  --card: #f6fbfc;
+  --card-foreground: #244452;
+  --popover: #f6fbfc;
+  --popover-foreground: #244452;
+  --primary: #5d8da3;
+  --primary-foreground: #ffffff;
+  --secondary: #e3f0f4;
+  --secondary-foreground: #5d8190;
+  --muted: #eef6f8;
+  --muted-foreground: #607c88;
+  --accent: #e5f1f5;
+  --accent-foreground: #486774;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #d6e7ed;
+  --input: #cddfe6;
+  --ring: #5d8da3;
+  /* Validated categorical palette (dataviz skill), fixed order — never cycled. */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --radius: 0.9rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: #dbeaf1;
+  --foreground: #244452;
+  --card: #f6fbfc;
+  --card-foreground: #244452;
+  --popover: #f6fbfc;
+  --popover-foreground: #244452;
+  --primary: #5d8da3;
+  --primary-foreground: #ffffff;
+  --secondary: #e3f0f4;
+  --secondary-foreground: #5d8190;
+  --muted: #eef6f8;
+  --muted-foreground: #607c88;
+  --accent: #e5f1f5;
+  --accent-foreground: #486774;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #d6e7ed;
+  --input: #cddfe6;
+  --ring: #5d8da3;
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Ambient ring decorations, matching the original lateen.html backdrop. */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  width: 330px;
+  height: 330px;
+  top: -150px;
+  inset-inline-end: -100px;
+  border: 1px solid rgba(91, 137, 156, 0.18);
+  box-shadow:
+    0 0 0 35px rgba(91, 137, 156, 0.05),
+    0 0 0 70px rgba(91, 137, 156, 0.035);
+}
+
+body::after {
+  width: 260px;
+  height: 260px;
+  bottom: -130px;
+  inset-inline-start: -80px;
+  border: 1px solid rgba(91, 137, 156, 0.16);
+  box-shadow:
+    0 0 0 30px rgba(91, 137, 156, 0.045),
+    0 0 0 60px rgba(91, 137, 156, 0.03);
+}
+
+/* Decorative circle + rotated square used on the login card and hero panel. */
+.decor-corner-start {
+  position: relative;
+  overflow: hidden;
+}
+
+.decor-corner-start::before {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border: 1px solid rgba(89, 133, 151, 0.13);
+  border-radius: 50%;
+  top: -70px;
+  inset-inline-end: -55px;
+}
+
+.decor-corner-start::after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgba(89, 133, 151, 0.1);
+  transform: rotate(45deg);
+  bottom: -55px;
+  inset-inline-start: -40px;
+}
+
+.decor-corner-end {
+  position: relative;
+  overflow: hidden;
+}
+
+.decor-corner-end::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(89, 133, 151, 0.16);
+  border-radius: 50%;
+  inset-inline-start: -85px;
+  top: -75px;
+}
+
+.decor-corner-end::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 1px solid rgba(89, 133, 151, 0.13);
+  transform: rotate(45deg);
+  inset-inline-end: -45px;
+  bottom: -55px;
+}
